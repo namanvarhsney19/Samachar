@@ -2,7 +2,11 @@ import React, { Component } from 'react'
 
 export class Navbar extends Component {
 
+
     render() {
+        const handleSelect = (element) => {
+            console.log(element)
+        }
         return (
             <div>
                 <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -20,14 +24,18 @@ export class Navbar extends Component {
                                     <a className="nav-link" href="/">Link</a>
                                 </li>
                                 <li className="nav-item dropdown">
-                                    <a className="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Dropdown
+                                    <a className="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" onSelect={handleSelect}>
+                                        Categories
                                     </a>
                                     <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a className="dropdown-item" href="/">Action</a></li>
-                                        <li><a className="dropdown-item" href="/">Another action</a></li>
+                                        <li className="dropdown-item" >Technology</li>
+                                        <li className="dropdown-item" >Entertainment</li>
                                         <li><hr className="dropdown-divider" /></li>
-                                        <li><a className="dropdown-item" href="/">Something else here</a></li>
+                                        <li className="dropdown-item" >Science</li>
+                                        <li className="dropdown-item" >Business</li>
+                                        <li><hr className="dropdown-divider" /></li>
+                                        <li className="dropdown-item" >Health</li>
+                                        <li className="dropdown-item" >Sports</li>
                                     </ul>
                                 </li>
                             </ul>
