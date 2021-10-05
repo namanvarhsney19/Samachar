@@ -75,7 +75,7 @@ export class Newspanel extends Component {
                 <div className="row my-3">
                     {this.state.loading === false && this.state.articles.map((element) => {
                         return <div className="col-md-3" key={element.url}>
-                            <Newsitem title={element.title.slice(0, 50)} description={element.description} imageUrl={element.urlToImage ? element.urlToImage : "https://www.cnet.com/a/img/wz4xdo4KcmNZLwEY8-mopNyfITk=/1200x630/2021/09/28/4eed6ebc-404f-4121-8ba4-4446837475fc/amazon-event-092821-astro-robot-11.jpg"} newsUrl={element.url} />
+                            <Newsitem title={element.title.slice(0, 50)} description={element.description} imageUrl={element.urlToImage ? element.urlToImage : "https://www.cnet.com/a/img/wz4xdo4KcmNZLwEY8-mopNyfITk=/1200x630/2021/09/28/4eed6ebc-404f-4121-8ba4-4446837475fc/amazon-event-092821-astro-robot-11.jpg"} newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source.name} />
                         </div>
                     })}
                 </div>
