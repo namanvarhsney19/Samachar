@@ -1,8 +1,20 @@
 import React, { Component } from 'react'
 import Newsitem from './Newsitem'
 import Spinner from './Spinner';
+// import PropTypes from 'prop-types'
+
 
 export class Newspanel extends Component {
+    static defaultProps = {
+        category: 'general',
+        pageSize: 8
+    }
+
+    // static PropTypes = {
+    //     category: PropTypes.string,
+    //     pageSize: PropTypes.number
+    // };
+
     constructor() {
         super();
         this.state = {
@@ -14,7 +26,9 @@ export class Newspanel extends Component {
     }
 
     async componentDidMount() {
-        let url = `https://newsapi.org/v2/top-headlines?country=in&category=technology&apiKey=c6d5c38801d040618f7f11825e4b612a&page=1&pageSize=${this.props.pageSize}`
+        document.body.style.backgroundColor = "#181818";
+        document.body.style.color = "white"
+        let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=c6d5c38801d040618f7f11825e4b612a&page=1&pageSize=${this.props.pageSize}`
         this.setState({ loading: true });
         let data = await fetch(url);
         let parsedData = await data.json();
@@ -26,7 +40,7 @@ export class Newspanel extends Component {
     }
 
     handlePrevClick = async () => {
-        let url = `https://newsapi.org/v2/top-headlines?country=in&category=technology&apiKey=c6d5c38801d040618f7f11825e4b612a&page=${this.state.page - 1}&pageSize=${this.props.pageSize}`
+        let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=c6d5c38801d040618f7f11825e4b612a&page=${this.state.page - 1}&pageSize=${this.props.pageSize}`
         this.setState({ loading: true });
         let data = await fetch(url);
         let parsedData = await data.json();
@@ -40,7 +54,7 @@ export class Newspanel extends Component {
     handleNextClick = async () => {
         console.log("Next")
         if (this.state.page + 1 <= Math.ceil(this.state.totalResults / this.props.pageSize)) {
-            let url = `https://newsapi.org/v2/top-headlines?country=in&category=technology&apiKey=c6d5c38801d040618f7f11825e4b612a&page=${this.state.page + 1}&pageSize=${this.props.pageSize}`
+            let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=c6d5c38801d040618f7f11825e4b612a&page=${this.state.page + 1}&pageSize=${this.props.pageSize}`
             this.setState({ loading: true });
             let data = await fetch(url);
             let parsedData = await data.json();
@@ -56,7 +70,7 @@ export class Newspanel extends Component {
     render() {
         return (
             <div className="container my-3">
-                <h3 className="text-center">Samachar - Top Headlines</h3>
+                <h2 className="text-center" style={{ margin: "30px 0px" }}>Samachar - Top Headlines</h2>
                 {this.state.loading && <Spinner />}
                 <div className="row my-3">
                     {this.state.loading === false && this.state.articles.map((element) => {
