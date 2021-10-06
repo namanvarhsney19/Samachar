@@ -13,12 +13,17 @@ import LoadingBar from 'react-top-loading-bar'
 
 export default class App extends Component {
     pageSize = 8;
+    apiKey = process.env.REACT_APP_NEWS_API;
 
     state = {
-        progress: 0
+        progress: 0,
+        color: '#f11946'
     }
-    setProgress = (progress) => {
-        this.setState({ progress: progress })
+    setProgress = (progress, color) => {
+        this.setState({
+            progress: progress,
+            color: color
+        })
     }
     render() {
         return (
@@ -26,17 +31,17 @@ export default class App extends Component {
                 <Router>
                     <Navbar />
                     <LoadingBar
-                        color='#f11946'
+                        color={this.state.progress}
                         progress={this.state.progress}
                     />
-                    <Route exact path="/"><Newspanel setProgress={this.setProgress} pageSize={this.pageSize} category="general" /></Route>
-                    <Route exact path="/business"><Newspanel setProgress={this.setProgress} pageSize={this.pageSize} category="business" /></Route>
-                    <Route exact path="/entertainment"><Newspanel setProgress={this.setProgress} pageSize={this.pageSize} category="entertainment" /></Route>
-                    <Route exact path="/general"><Newspanel setProgress={this.setProgress} pageSize={this.pageSize} category="general" /></Route>
-                    <Route exact path="/health"><Newspanel setProgress={this.setProgress} pageSize={this.pageSize} category="health" /></Route>
-                    <Route exact path="/science"><Newspanel setProgress={this.setProgress} pageSize={this.pageSize} category="science" /></Route>
-                    <Route exact path="/sports"><Newspanel setProgress={this.setProgress} pageSize={this.pageSize} category="sports" /></Route>
-                    <Route exact path="/technology"><Newspanel setProgress={this.setProgress} pageSize={this.pageSize} category="technology" /></Route>
+                    <Route exact path="/"><Newspanel setProgress={this.setProgress} apiKey={this.apiKey} pageSize={this.pageSize} category="general" /></Route>
+                    <Route exact path="/business"><Newspanel setProgress={this.setProgress} apiKey={this.apiKey} pageSize={this.pageSize} category="business" /></Route>
+                    <Route exact path="/entertainment"><Newspanel setProgress={this.setProgress} apiKey={this.apiKey} pageSize={this.pageSize} category="entertainment" /></Route>
+                    <Route exact path="/general"><Newspanel setProgress={this.setProgress} apiKey={this.apiKey} pageSize={this.pageSize} category="general" /></Route>
+                    <Route exact path="/health"><Newspanel setProgress={this.setProgress} apiKey={this.apiKey} pageSize={this.pageSize} category="health" /></Route>
+                    <Route exact path="/science"><Newspanel setProgress={this.setProgress} apiKey={this.apiKey} pageSize={this.pageSize} category="science" /></Route>
+                    <Route exact path="/sports"><Newspanel setProgress={this.setProgress} apiKey={this.apiKey} pageSize={this.pageSize} category="sports" /></Route>
+                    <Route exact path="/technology"><Newspanel setProgress={this.setProgress} apiKey={this.apiKey} pageSize={this.pageSize} category="technology" /></Route>
                     <Switch>
                     </Switch>
                 </Router>
