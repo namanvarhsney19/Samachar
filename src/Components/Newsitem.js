@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 export class Newsitem extends Component {
     render() {
         let { title, description, imageUrl, newsUrl, date, source, category } = this.props;
-        let badgeColor = { "science": "primary", "entertainment": "danger", "technology": "primary", "business": "secondary", "health": "danger", "sports": "warning" }
+        let badgeColor = { "science": "primary", "entertainment": "danger", "technology": "primary", "business": "secondary", "health": "danger", "sports": "warning", "general": "primary" }
         return (
             <div className="card" style={{ backgroundColor: "#282828" }}>
                 <span className={`position-absolute top-0 translate-middle badge rounded-pill bg-${badgeColor[category]}`} style={{ left: "90%", zIndex: "1" }}>{source}</span>

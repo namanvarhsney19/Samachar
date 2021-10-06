@@ -25,6 +25,7 @@ export class Navbar extends Component {
                                         Categories
                                     </Link>
                                     <ul className="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenu">
+                                        <li><Link className="dropdown-item" to="/"> General</Link></li>
                                         <li><Link className="dropdown-item" to="/technology"> Technology</Link></li>
                                         <li><Link className="dropdown-item" to="/science"> Science</Link></li>
                                         <li><hr className="dropdown-divider" /></li>

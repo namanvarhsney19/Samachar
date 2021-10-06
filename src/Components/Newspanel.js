@@ -10,14 +10,18 @@ export class Newspanel extends Component {
         pageSize: 8
     }
 
-    constructor() {
-        super();
+    capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    constructor(props) {
+        super(props);
         this.state = {
             articles: [],
             loading: false,
             page: 1
         }
-
+        document.title = `${this.capitalizeFirstLetter(this.props.category)} - Samachar`;
     }
 
     async updateNews() {
@@ -51,13 +55,13 @@ export class Newspanel extends Component {
     render() {
         return (
             <div className="container my-3">
-                <h2 className="text-center" style={{ margin: "30px 0px" }}>Samachar - Top Headlines</h2>
+                <h2 className="text-center" style={{ margin: "30px 0px" }}>Samachar - Top {this.capitalizeFirstLetter(this.props.category)} Headlines</h2>
                 {this.state.loading && <Spinner />}
                 <div className="row my-3">
                     {this.state.loading === false && this.state.articles.map((element) => {
-                        return <div className="col-md-3" key={element.url}>
+                        return element ? <div className="col-md-3" key={element.url}>
                             <Newsitem title={element.title.slice(0, 50)} description={element.description} imageUrl={element.urlToImage ? element.urlToImage : "https://www.cnet.com/a/img/wz4xdo4KcmNZLwEY8-mopNyfITk=/1200x630/2021/09/28/4eed6ebc-404f-4121-8ba4-4446837475fc/amazon-event-092821-astro-robot-11.jpg"} newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source.name} category={this.props.category} />
-                        </div>
+                        </div> : <h1>This is the error</h1>
                     })}
                 </div>
                 <div className="container d-flex justify-content-between">
