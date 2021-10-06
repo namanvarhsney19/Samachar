@@ -27,15 +27,20 @@ export class Newspanel extends Component {
     }
 
     async updateNews() {
+        this.props.setProgress(0);
         const url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=c6d5c38801d040618f7f11825e4b612a&page=${this.state.page}&pageSize=${this.props.pageSize}`
         this.setState({ loading: true });
+        this.props.setProgress(10);
         let data = await fetch(url);
+        this.props.setProgress(40);
         let parsedData = await data.json();
+        this.props.setProgress(70);
         this.setState({
             articles: parsedData.articles,
             totalResults: parsedData.totalResults,
             loading: false
         })
+        this.props.setProgress(100);
     }
 
     fetchMoreData = async () => {
