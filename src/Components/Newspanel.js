@@ -29,7 +29,8 @@ export class Newspanel extends Component {
     async updateNews() {
         const topLoadingBarColor = { "science": "#0d6efd", "entertainment": "f11946", "technology": "#0d6efd", "business": "#6c757d", "health": "f11946", "sports": "#ffc107", "general": "#0d6efd" }
         let color = topLoadingBarColor[this.props.category];
-        this.props.setProgress(10, color);
+        console.log(color);
+        this.props.setProgress(0, color);
         const url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`
         this.setState({ loading: true });
         this.props.setProgress(10, color);
@@ -42,7 +43,7 @@ export class Newspanel extends Component {
             totalResults: parsedData.totalResults,
             loading: false
         })
-        this.props.setProgress(100);
+        this.props.setProgress(100, color);
     }
 
     fetchMoreData = async () => {

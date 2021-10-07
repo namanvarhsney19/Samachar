@@ -17,7 +17,8 @@ export default class App extends Component {
 
     state = {
         progress: 0,
-        color: '#f11946'
+        // color: '#f11946'
+        color: 'blue'
     }
     setProgress = (progress, color) => {
         this.setState({
@@ -31,7 +32,7 @@ export default class App extends Component {
                 <Router>
                     <Navbar />
                     <LoadingBar
-                        color={this.state.progress}
+                        color={this.state.color}
                         progress={this.state.progress}
                     />
                     <Route exact path="/"><Newspanel setProgress={this.setProgress} apiKey={this.apiKey} pageSize={this.pageSize} category="general" /></Route>
