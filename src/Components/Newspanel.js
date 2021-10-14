@@ -1,93 +1,86 @@
-import React, { Component } from 'react'
+import React, { useEffect, useState } from 'react'
 import Newsitem from './Newsitem'
 import Spinner from './Spinner';
 // import PropTypes from 'prop-types'
 import InfiniteScroll from "react-infinite-scroll-component";
 
 
-export class Newspanel extends Component {
-    static defaultProps = {
-        category: 'general',
-        pageSize: 8
-    }
+const Newspanel = (props) => {
 
-    capitalizeFirstLetter = (string) => {
+    const [articles, setArticles] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [page, setPage] = useState(1);
+    const [totalResults, setTotalResults] = useState(0);
+
+    const capitalizeFirstLetter = (string) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            articles: [],
-            loading: true,
-            page: 1,
-            totalResults: 0
-        }
-        document.title = `${this.capitalizeFirstLetter(this.props.category)} - Samachar`;
+    // eslint-disable-next-line
+    const updateNews = async () => {
+        const topLoadingBarColor = { "science": "blue", "entertainment": "red", "technology": "blue", "business": "grey", "health": "red", "sports": "#ffc107", "general": "red" }
+        let color = topLoadingBarColor[props.category];
+        props.setProgress(0);
+        props.setColor(color);
+        const url = `https://newsapi.org/v2/top-headlines?country=in&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`
+        setLoading(true);
+        props.setProgress(10);
+        let data = await fetch(url);
+        props.setProgress(40);
+        let parsedData = await data.json();
+        props.setProgress(70);
+        setArticles(parsedData.articles);
+        setTotalResults(parsedData.totalResults);
+        setLoading(false);
+        props.setProgress(100);
     }
 
-    async updateNews() {
-        const topLoadingBarColor = { "science": "#0d6efd", "entertainment": "f11946", "technology": "#0d6efd", "business": "#6c757d", "health": "f11946", "sports": "#ffc107", "general": "#0d6efd" }
-        let color = topLoadingBarColor[this.props.category];
-        console.log(color);
-        this.props.setProgress(0, color);
-        const url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`
-        this.setState({ loading: true });
-        this.props.setProgress(10, color);
-        let data = await fetch(url);
-        this.props.setProgress(40, color);
-        let parsedData = await data.json();
-        this.props.setProgress(70, color);
-        this.setState({
-            articles: parsedData.articles,
-            totalResults: parsedData.totalResults,
-            loading: false
-        })
-        this.props.setProgress(100, color);
-    }
-
-    fetchMoreData = async () => {
-        this.setState({ page: this.state.page + 1 })
-        const url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`
+    const fetchMoreData = async () => {
+        const url = `https://newsapi.org/v2/top-headlines?country=in&category=${props.category}&apiKey=${props.apiKey}&page=${page + 1}&pageSize=${props.pageSize}`
+        setPage(page + 1);
         let data = await fetch(url);
         let parsedData = await data.json();
-        this.setState({
-            articles: this.state.articles.concat(parsedData.articles),
-            totalResults: parsedData.totalResults
-        })
+        setArticles(articles.concat(parsedData.articles));
+        setTotalResults(parsedData.totalResults);
     };
 
-    async componentDidMount() {
+    useEffect(() => {
         document.body.style.backgroundColor = "#181818";
         document.body.style.color = "white";
-        this.updateNews();
-    }
-    render() {
-        let defaultImageUrl = "https://www.cnet.com/a/img/wz4xdo4KcmNZLwEY8-mopNyfITk=/1200x630/2021/09/28/4eed6ebc-404f-4121-8ba4-4446837475fc/amazon-event-092821-astro-robot-11.jpg";
-        return (
-            <>
-                <h2 className="text-center" style={{ margin: "30px 0px" }}>Samachar - Top {this.capitalizeFirstLetter(this.props.category)} Headlines</h2>
-                {this.state.loading && <Spinner />}
-                <InfiniteScroll
-                    dataLength={this.state.articles.length}
-                    next={this.fetchMoreData}
-                    hasMore={this.state.articles.length !== this.state.totalResults}
-                    loader={<Spinner />}
-                >
-                    <div className="container">
+        document.title = `${capitalizeFirstLetter(props.category)} - Samachar`;
+        updateNews();
+    }, [])
 
-                        <div className="row my-3">
-                            {this.state.articles.map((element) => {
-                                return element ? <div className="col-md-3" key={element.url}>
-                                    <Newsitem title={element.title.slice(0, 50)} description={element.description} imageUrl={element.urlToImage ? element.urlToImage : defaultImageUrl} newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source.name} category={this.props.category} />
-                                </div> : <h1>This is the error</h1>
-                            })}
-                        </div>
+    let defaultImageUrl = "https://www.cnet.com/a/img/wz4xdo4KcmNZLwEY8-mopNyfITk=/1200x630/2021/09/28/4eed6ebc-404f-4121-8ba4-4446837475fc/amazon-event-092821-astro-robot-11.jpg";
+    return (
+        <>
+            <h2 className="text-center" style={{ margin: "30px 0px", marginTop: "90px" }}>Samachar - Top {capitalizeFirstLetter(props.category)} Headlines</h2>
+            {loading && <Spinner />}
+            <InfiniteScroll
+                dataLength={articles.length}
+                next={fetchMoreData}
+                hasMore={articles.length !== totalResults}
+                loader={<Spinner />}
+            >
+                <div className="container">
 
+                    <div className="row my-3">
+                        {articles.map((element) => {
+                            return element ? <div className="col-md-3" key={element.url}>
+                                <Newsitem title={element.title.slice(0, 50)} description={element.description} imageUrl={element.urlToImage ? element.urlToImage : defaultImageUrl} newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source.name} category={props.category} />
+                            </div> : <h1>This is the error</h1>
+                        })}
                     </div>
-                </InfiniteScroll>
-            </ >
-        )
-    }
+
+                </div>
+            </InfiniteScroll>
+        </ >
+    )
+
+}
+
+Newspanel.defaultProps = {
+    category: 'general',
+    pageSize: 8
 }
 export default Newspanel
