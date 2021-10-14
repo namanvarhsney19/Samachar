@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Newsitem from './Newsitem'
 import Spinner from './Spinner';
-// import PropTypes from 'prop-types'
 import InfiniteScroll from "react-infinite-scroll-component";
 
 
@@ -45,8 +44,6 @@ const Newspanel = (props) => {
     };
 
     useEffect(() => {
-        document.body.style.backgroundColor = "#181818";
-        document.body.style.color = "white";
         document.title = `${capitalizeFirstLetter(props.category)} - Samachar`;
         updateNews();
     }, [])
@@ -67,7 +64,7 @@ const Newspanel = (props) => {
                     <div className="row my-3">
                         {articles.map((element) => {
                             return element ? <div className="col-md-3" key={element.url}>
-                                <Newsitem title={element.title.slice(0, 50)} description={element.description} imageUrl={element.urlToImage ? element.urlToImage : defaultImageUrl} newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source.name} category={props.category} />
+                                <Newsitem title={element.title.slice(0, 50)} description={element.description} imageUrl={element.urlToImage ? element.urlToImage : defaultImageUrl} newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source.name} category={props.category} mode={props.mode} />
                             </div> : <h1>This is the error</h1>
                         })}
                     </div>
