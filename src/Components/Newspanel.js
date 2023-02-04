@@ -46,6 +46,7 @@ const Newspanel = (props) => {
     useEffect(() => {
         document.title = `${capitalizeFirstLetter(props.category)} - Samachar`;
         updateNews();
+        // eslint-disable-next-line
     }, [])
 
     let defaultImageUrl = "https://www.cnet.com/a/img/wz4xdo4KcmNZLwEY8-mopNyfITk=/1200x630/2021/09/28/4eed6ebc-404f-4121-8ba4-4446837475fc/amazon-event-092821-astro-robot-11.jpg";

@@ -8,7 +8,10 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import LoadingBar from 'react-top-loading-bar'
 
 function App() {
-    const apiKey = process.env.REACT_APP_NEWS_API;
+    const REACT_APP_NEWS_API = "2c44bf6f1c9b4534b1a372326cbcaeb1"
+    // "c6d5c38801d040618f7f11825e4b612a"
+    // const apiKey = process.env.REACT_APP_NEWS_API;
+    const apiKey = REACT_APP_NEWS_API;
 
     const [mode, setMode] = useState("light");
     const pageSize = 8;
